@@ -40,7 +40,7 @@ var URL_APP='https://script.google.com/macros/s/AKfycbxkxvJzET4HcWWsOQOcwGhQSQoz
 var f=document.getElementById('app'),sp=document.getElementById('splash');
 if(!navigator.onLine){document.getElementById('off').style.display='flex'}
 f.onload=function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none'},400)};
-f.src=URL_APP;
+var qs=new URLSearchParams(location.search),t=qs.get('t');f.src=URL_APP+(t&&/^\d+$/.test(t)?'?t='+t:'');
 setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none'},400)},12000);
 window.addEventListener('offline',function(){document.getElementById('off').style.display='flex'});
 window.addEventListener('online',function(){location.reload()});
