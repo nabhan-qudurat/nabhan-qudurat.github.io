@@ -1,5 +1,5 @@
-const C='nabhan-shell-v2';
-const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./favicon.png'];
+const C='nabhan-shell-v3';
+const SHELL=['./','./index.html','./manifest.webmanifest','./gold-icon-192.png','./gold-icon-512.png','./gold-apple-touch-icon.png','./gold-favicon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});
 self.addEventListener('fetch',e=>{
