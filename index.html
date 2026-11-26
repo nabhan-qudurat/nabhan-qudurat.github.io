@@ -44,6 +44,7 @@ var qs=new URLSearchParams(location.search),t=qs.get('t');f.src=URL_APP+(t&&/^\d
 setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none'},400)},12000);
 window.addEventListener('offline',function(){document.getElementById('off').style.display='flex'});
 window.addEventListener('online',function(){location.reload()});
+window.addEventListener('message',function(e){try{if(!/\.googleusercontent\.com$/.test(new URL(e.origin).hostname))return;var d=e.data||{};if(d.nb==='save'&&d.u&&d.p){localStorage.setItem('nb_u',d.u);localStorage.setItem('nb_p',d.p)}else if(d.nb==='clear'){localStorage.removeItem('nb_u');localStorage.removeItem('nb_p')}else if(d.nb==='get'){var u=localStorage.getItem('nb_u'),p=localStorage.getItem('nb_p');if(u&&p&&e.source)e.source.postMessage({nb:'creds',u:u,p:p},e.origin)}}catch(x){}});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 /* دعوة التثبيت */
 var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
