@@ -53,8 +53,9 @@ f.onload=function(){sp.style.opacity='0';setTimeout(function(){sp.style.display=
 var qs=new URLSearchParams(location.search),t=qs.get('t'),rm=qs.get('room');f.src=URL_APP+(rm&&/^\d{4}$/.test(rm)?'?room='+rm:(t&&/^\d+$/.test(t)?'?t='+t:''));
 setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none'},400)},12000);
 window.addEventListener('offline',function(){document.getElementById('off').style.display='flex'});
-window.addEventListener('online',function(){location.reload()});
-window.addEventListener('message',function(e){try{if(!/\.googleusercontent\.com$/.test(new URL(e.origin).hostname))return;var d=e.data||{};if(d.nb==='save'&&d.u&&d.p){localStorage.setItem('nb_u',d.u);localStorage.setItem('nb_p',d.p)}else if(d.nb==='clear'){localStorage.removeItem('nb_u');localStorage.removeItem('nb_p')}else if(d.nb==='get'){var u=localStorage.getItem('nb_u'),p=localStorage.getItem('nb_p');if(u&&p&&e.source)e.source.postMessage({nb:'creds',u:u,p:p},e.origin)}}catch(x){}});
+var LOADED=false;f.addEventListener('load',function(){LOADED=true});
+window.addEventListener('online',function(){document.getElementById('off').style.display='none';if(!LOADED)f.src=f.src});
+window.addEventListener('message',function(e){try{if(!/\.googleusercontent\.com$/.test(new URL(e.origin).hostname))return;var d=e.data||{};if(d.nb==='save'&&d.u&&d.p){localStorage.setItem('nb_u',d.u);localStorage.setItem('nb_p',d.p)}else if(d.nb==='clear'){localStorage.removeItem('nb_u');localStorage.removeItem('nb_p')}else if(d.nb==='exsave'&&typeof d.d==='string'){localStorage.setItem('nb_ex',d.d)}else if(d.nb==='exclear'){localStorage.removeItem('nb_ex')}else if(d.nb==='exget'){if(e.source)e.source.postMessage({nb:'exdata',d:localStorage.getItem('nb_ex')},e.origin)}else if(d.nb==='get'){var u=localStorage.getItem('nb_u'),p=localStorage.getItem('nb_p');if(u&&p&&e.source)e.source.postMessage({nb:'creds',u:u,p:p},e.origin)}}catch(x){}});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 /* دعوة التثبيت */
 var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
