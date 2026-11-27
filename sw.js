@@ -1,4 +1,4 @@
-const C='nabhan-shell-v8';
+const C='nabhan-shell-v9';
 const SHELL=['./','./index.html','./manifest.webmanifest','./gold-icon-192.png','./gold-icon-512.png','./gold-apple-touch-icon.png','./gold-favicon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});
